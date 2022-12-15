@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Coding/MessengerDemo/app/src/main/res/drawable/bg_message.xml" value="0.124" />
-        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/layout/activity_chat.xml" value="0.25" />
+        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/drawable/bg_message_friend.xml" value="0.1775" />
+        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/drawable/bg_message_self.xml" value="0.1775" />
+        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/layout/activity_chat.xml" value="0.2199074074074074" />
         <entry key="..\:/Coding/MessengerDemo/app/src/main/res/layout/activity_main.xml" value="0.18" />
-        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/layout/layout_item_chat_message.xml" value="0.33" />
+        <entry key="..\:/Coding/MessengerDemo/app/src/main/res/layout/layout_item_chat_message.xml" value="0.2" />
       </map>
     </option>
   </component>

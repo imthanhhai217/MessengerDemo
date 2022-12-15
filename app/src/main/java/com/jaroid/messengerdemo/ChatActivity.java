@@ -1,23 +1,27 @@
 package com.jaroid.messengerdemo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,43 +85,80 @@ public class ChatActivity extends AppCompatActivity {
 
         chatMessage.setUid(mUser.getUid());
 
-
+        mDatabaseReference.push().setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    edtMessage.setText("");
+                } else {
+                    Toast.makeText(ChatActivity.this, "" + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ChatActivity.this, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initData() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        Log.d(TAG, "initData: " + mUser.getEmail());
+        if (mUser != null) {
+            Log.d(TAG, "initData: " + mUser.getEmail());
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance("https://android50-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        mDatabaseReference = mFirebaseDatabase.getReference(Global.ROOM_CHAT_REFERENCE);
+            mAuth = FirebaseAuth.getInstance();
+            mFirebaseDatabase = FirebaseDatabase.getInstance("https://android50-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            mDatabaseReference = mFirebaseDatabase.getReference(Global.ROOM_CHAT_REFERENCE);
+            mDatabaseReference.addChildEventListener(messageListener);
 
-        //up data to realtime database
-//        mDatabaseReference.setValue("Hello, World!");
+            mListChatMessages = new ArrayList<>();
+            mListChatMessages.clear();
+            mChattingAdapter = new ChattingAdapter(mListChatMessages, mUser.getUid());
+        }
+    }
 
-        DatabaseReference room1 = mDatabaseReference.child("room1");
-        room1.setValue("hello im "+mUser.getEmail());
-
-        mListChatMessages = new ArrayList<>();
-        mListChatMessages.clear();
-        mChattingAdapter = new ChattingAdapter(mListChatMessages);
-
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d(TAG, "onDataChange: " + snapshot.getValue(String.class));
+    private ChildEventListener messageListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            ChatMessage newMessage = snapshot.getValue(ChatMessage.class);
+            if (newMessage != null) {
+                addNewMessage(newMessage);
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "onCancelled: ");
-            }
-        });
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
+
+    private void addNewMessage(ChatMessage newMessage) {
+        mListChatMessages.add(0,newMessage);
+        mChattingAdapter.notifyItemInserted(0);
+        rvMessage.smoothScrollToPosition(0);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mAuth.signOut();
+        if (mAuth != null) {
+            mAuth.signOut();
+        }
     }
 }

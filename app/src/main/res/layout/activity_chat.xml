@@ -22,9 +22,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMessage"
+        app:reverseLayout="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:overScrollMode="never"
         android:padding="@dimen/_16sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/h1"

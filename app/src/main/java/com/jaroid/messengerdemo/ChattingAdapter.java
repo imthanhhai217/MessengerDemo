@@ -1,8 +1,10 @@
 package com.jaroid.messengerdemo;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,10 +17,12 @@ import butterknife.ButterKnife;
 
 public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.MessageViewHolder> {
 
+    private String mCurrentUid;
     ArrayList<ChatMessage> mListChatMessages;
 
-    public ChattingAdapter(ArrayList<ChatMessage> mListChatMessages) {
+    public ChattingAdapter(ArrayList<ChatMessage> mListChatMessages, String currentUid) {
         this.mListChatMessages = mListChatMessages;
+        this.mCurrentUid = currentUid;
     }
 
     @NonNull
@@ -31,10 +35,14 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.Messag
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         ChatMessage chatMessage = mListChatMessages.get(position);
-
-        holder.tvUserName.setText(chatMessage.getUserName());
         holder.tvMessage.setText(chatMessage.getMessage());
-        holder.tvTime.setText(chatMessage.getTime());
+        if (chatMessage.getUid().equals(mCurrentUid)) {
+            holder.llMessage.setBackgroundResource(R.drawable.bg_message_self);
+            holder.llMessageRow.setGravity(Gravity.RIGHT);
+        } else {
+            holder.llMessage.setBackgroundResource(R.drawable.bg_message_friend);
+            holder.llMessageRow.setGravity(Gravity.LEFT);
+        }
     }
 
     @Override
@@ -43,17 +51,17 @@ public class ChattingAdapter extends RecyclerView.Adapter<ChattingAdapter.Messag
     }
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvUserName)
-        TextView tvUserName;
+        @BindView(R.id.llMessageRow)
+        LinearLayout llMessageRow;
+        @BindView(R.id.llMessage)
+        LinearLayout llMessage;
         @BindView(R.id.tvMessage)
         TextView tvMessage;
-        @BindView(R.id.tvTime)
-        TextView tvTime;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
