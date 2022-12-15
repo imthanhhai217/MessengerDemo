@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void goToChattingActivity(FirebaseUser user) {
         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-        intent.putExtra(Global.USER_KEY, user);
         startActivity(intent);
     }
 
