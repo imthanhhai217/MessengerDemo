@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "776039173466",
+    "project_id": "android50",
+    "storage_bucket": "android50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776039173466:android:ab42b9ba49653f71c07763",
+        "android_client_info": {
+          "package_name": "com.jaroid.messengerdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776039173466-88b6o91jeofr8q5l46schtle8aaa84b6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jaroid.messengerdemo",
+            "certificate_hash": "c0af3b4694c81c51772cd98bfab619efb9b4ad61"
+          }
+        },
+        {
+          "client_id": "776039173466-cted7c39s6vhoh9033g1dp7ftt16fc8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc8j5QMVX-w7xlcBLsGD3f4EzXoSjfDZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776039173466-cted7c39s6vhoh9033g1dp7ftt16fc8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

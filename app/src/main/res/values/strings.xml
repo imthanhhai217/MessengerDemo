@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MessengerDemo</string>
+    <string name="text_register">Dont have an account ?</string>
+    <string name="text_sign_in">Have an account ?</string>
+</resources>
