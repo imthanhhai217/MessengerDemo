@@ -1,16 +1,18 @@
 package com.jaroid.messengerdemo;
 
 public class ChatMessage {
-    String uid;
-    String userName;
-    String message;
-    String time;
+    private String uid;
+    private String userName;
+    private String message;
+    private String time;
+    private int messageType;
 
-    public ChatMessage(String uid, String userName, String message, String time) {
+    public ChatMessage(String uid, String userName, String message, String time, int messageType) {
         this.uid = uid;
         this.userName = userName;
         this.message = message;
         this.time = time;
+        this.messageType = messageType;
     }
 
     public ChatMessage() {
@@ -46,6 +48,14 @@ public class ChatMessage {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
     }
 
     @Override

@@ -121,9 +121,10 @@ public class ChatActivity extends AppCompatActivity {
     private ChildEventListener messageListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            Log.d(TAG, "onChildAdded: "+previousChildName);
             ChatMessage newMessage = snapshot.getValue(ChatMessage.class);
             if (newMessage != null) {
-                addNewMessage(newMessage);
+                addNewMessage(newMessage,previousChildName);
             }
         }
 
@@ -148,8 +149,17 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-    private void addNewMessage(ChatMessage newMessage) {
-        mListChatMessages.add(0,newMessage);
+    //Sử dụng previousChildName để kiểm tra xem tin nhắn trước nó có phải là cùng 1 người nhắn không
+    private void addNewMessage(ChatMessage newMessage, String previousChildName) {
+        ChatMessage chatMessage = newMessage;
+        if (mUser.getUid().equals(newMessage.getUid())) {
+            chatMessage.setMessageType(ChattingAdapter.MESSAGE_SELF);
+        } else {
+            chatMessage.setMessageType(ChattingAdapter.MESSAGE_FRIEND);
+        }
+
+
+        mListChatMessages.add(0, chatMessage);
         mChattingAdapter.notifyItemInserted(0);
         rvMessage.smoothScrollToPosition(0);
     }

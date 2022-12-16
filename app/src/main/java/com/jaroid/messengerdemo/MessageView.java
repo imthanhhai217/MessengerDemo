@@ -39,5 +39,6 @@ public class MessageView extends androidx.appcompat.widget.AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Log.d("TAG", "onDraw: "+getWidth()+" | "+getHeight());
     }
 }

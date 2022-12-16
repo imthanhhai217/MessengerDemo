@@ -6,7 +6,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('D:\\Coding\\MessengerDemo\\app\\messenger_demo.jks')
+            storeFile file('messenger_demo.jks')
             storePassword '123456'
             keyAlias 'messenger_demo'
             keyPassword '123456'
