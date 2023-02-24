@@ -62,14 +62,18 @@ public class ChatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         rvMessage.setAdapter(mChattingAdapter);
-
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
+//                runTestCrash();
             }
         });
     }
+
+//    private void runTestCrash() {
+//        throw new RuntimeException("ERROR ");
+//    }
 
     private void sendMessage() {
         ChatMessage chatMessage = new ChatMessage();
@@ -121,10 +125,10 @@ public class ChatActivity extends AppCompatActivity {
     private ChildEventListener messageListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            Log.d(TAG, "onChildAdded: "+previousChildName);
+            Log.d(TAG, "onChildAdded: " + previousChildName);
             ChatMessage newMessage = snapshot.getValue(ChatMessage.class);
             if (newMessage != null) {
-                addNewMessage(newMessage,previousChildName);
+                addNewMessage(newMessage, previousChildName);
             }
         }
 
